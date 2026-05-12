@@ -2,7 +2,9 @@
 
 ## References
 
-[Concept](https://www.geeksforgeeks.org/python/image-reconstruction-using-singular-value-decomposition-svd-in-python/)
+[Guide](https://www.geeksforgeeks.org/python/image-reconstruction-using-singular-value-decomposition-svd-in-python/)
+
+[Reference](https://github.com/numpy/numpy/blob/main/numpy/linalg/_linalg.py#L1667-L1852)
 
 [Output Expectation](https://www.geeksforgeeks.org/python/image-reconstruction-using-singular-value-decomposition-svd-in-python/)
 
