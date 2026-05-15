@@ -2,7 +2,7 @@
 % SVD Image Compression MATLAB Version
 % =========================
 function index()
-    image_path = "assets/input/01_landscape.jpg";
+    image_path = "assets/input/04_painting.avif";
     try
         img_data = imread(image_path);
         img_data = imresize(img_data, 0.25);
