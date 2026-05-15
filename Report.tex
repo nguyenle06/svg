@@ -1,0 +1,280 @@
+\documentclass[12pt,a4paper]{article}
+
+% ---------- packages ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[intlimits]{amsmath}
+\usepackage{amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{subcaption}   % for subfigure grouping
+
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=black,citecolor=black}
+
+% =====================================================================
+% COLOUR PALETTE (shared by all listing styles)
+% =====================================================================
+\definecolor{codebg}{rgb}{0.97,0.97,0.97}
+\definecolor{codekw}{rgb}{0.13,0.29,0.53}
+\definecolor{codestr}{rgb}{0.58,0.00,0.00}
+\definecolor{codecmt}{rgb}{0.25,0.50,0.25}
+\definecolor{codenum}{rgb}{0.50,0.50,0.50}
+
+% =====================================================================
+% LISTING STYLES
+% =====================================================================
+
+% ---------- Python ----------
+\lstdefinestyle{pystyle}{
+  language=Python,
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{codekw}\bfseries,
+  stringstyle=\color{codestr},
+  commentstyle=\color{codecmt}\itshape,
+  numberstyle=\tiny\color{codenum},
+  numbers=left, numbersep=6pt, stepnumber=1,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single, rulecolor=\color{black!30},
+  tabsize=4, captionpos=b,
+  literate={~}{{\textasciitilde}}1
+}
+
+% ---------- plain output ----------
+\lstdefinestyle{outstyle}{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=single, rulecolor=\color{black!30}
+}
+
+% ---------- MATLAB ----------
+\lstdefinestyle{mstyle}{
+  language=Matlab,
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{codekw}\bfseries,
+  stringstyle=\color{codestr},
+  commentstyle=\color{codecmt}\itshape,
+  numberstyle=\tiny\color{codenum},
+  numbers=left, numbersep=6pt, stepnumber=1,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single, rulecolor=\color{black!30},
+  tabsize=4, captionpos=b,
+}
+
+% =====================================================================
+% CUSTOM COMMANDS
+% =====================================================================
+
+% \mfile{DisplayName}{path/to/file.m}
+%   Reads and typesets a MATLAB source file with a labelled caption.
+\newcommand{\mfile}[2]{%
+  \vspace{0.3cm}%
+  \lstinputlisting[style=mstyle, caption={\texttt{#1}}, label={lst:#1}]{#2}%
+  \vspace{0.4cm}%
+}
+
+% \figfile{path/to/image}{Caption text}
+%   Inserts a single centred figure at 0.82 linewidth.
+\newcommand{\figfile}[2]{%
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\linewidth]{#1}
+    \caption{#2}
+  \end{figure}%
+}
+
+% \imggroup{input path}{output prefix}{extension}
+%   Groups Input / Visualization / Trade-off side by side for one test case.
+%     #1 = full path to the input image   e.g. ./assets/input/01_landscape.jpg
+%     #2 = output path prefix (no ext, no _visualization/_tradeoff suffix)
+%          e.g. ./assets/output/01_landscape
+%     #3 = file extension without dot     e.g. jpg
+\newcommand{\imggroup}[3]{%
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.32\linewidth}
+      \centering
+      \includegraphics[width=\linewidth]{#1}
+      \caption{Input}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.32\linewidth}
+      \centering
+      \includegraphics[width=\linewidth]{#2_visualization.#3}
+      \caption{Visualization}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.32\linewidth}
+      \centering
+      \includegraphics[width=\linewidth]{#2_tradeoff.#3}
+      \caption{Trade-off}
+    \end{subfigure}
+    \caption{Results -- \texttt{#1}}
+  \end{figure}%
+  \vspace{0.3cm}%
+}
+
+% =====================================================================
+% PAGE STYLE
+% =====================================================================
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small MT1005 -- Linear Algebra -- Group 12}
+\fancyhead[R]{\small Topic 5}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% =====================================================================
+% SECTION FORMAT
+% =====================================================================
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+
+% =====================================================================
+% MATH SHORTCUTS
+% =====================================================================
+\newcommand{\dd}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\ddt}[2]{\dfrac{\partial^{2}#1}{\partial #2^{2}}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\eps}{\varepsilon}
+
+% =====================================================================
+\begin{document}
+% =====================================================================
+
+% ---------------------------------------------------------------------
+% COVER PAGE
+% ---------------------------------------------------------------------
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+{\large \textbf{VIETNAM NATIONAL UNIVERSITY -- HO CHI MINH CITY}}\\[0.2cm]
+{\large \textbf{HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY (HCMUT)}}\\[1.5cm]
+
+% Uncomment once logo.png is available:
+% \includegraphics[width=0.32\textwidth]{./assets/report/logo.png}\\[1.5cm]
+
+\rule{\linewidth}{0.6mm}\\[0.4cm]
+{\Huge \bfseries LINEAR ALGEBRA -- MT1005}\\[0.4cm]
+{\LARGE \bfseries Assignment Report -- Topic 5}\\[0.3cm]
+\rule{\linewidth}{0.6mm}\\[2.0cm]
+
+\begin{tabular}{rl}
+  \textbf{Course:} & MT1005 -- Linear Algebra \\[0.3em]
+  \textbf{Class:}  & CC02                     \\[0.3em]
+  \textbf{Group:}  & 12                       \\[0.3em]
+\end{tabular}
+
+\vfill
+{\large Ho Chi Minh City, May 2026}
+\end{titlepage}
+
+% ---------------------------------------------------------------------
+% WORK ASSIGNMENT SHEET
+% ---------------------------------------------------------------------
+\newpage
+\thispagestyle{fancy}
+\section*{Work Assignment Sheet}
+\addcontentsline{toc}{section}{Work Assignment Sheet}
+
+\vspace{0.6cm}
+\renewcommand{\arraystretch}{1.6}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{3cm}|>{\centering\arraybackslash}m{4.5cm}|c|}
+\hline
+\textbf{No.} & \textbf{Full Name} & \textbf{Student ID} & \textbf{Task / Role} & \textbf{Participation} \\
+\hline
+1 & \rule{0pt}{1.1em} & & & \\ \hline
+2 & \rule{0pt}{1.1em} & & & \\ \hline
+3 & \rule{0pt}{1.1em} & & & \\ \hline
+4 & \rule{0pt}{1.1em} & & & \\ \hline
+5 & \rule{0pt}{1.1em} & & & \\ \hline
+6 & \rule{0pt}{1.1em} & & & \\ \hline
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------
+% TABLE OF CONTENTS
+% ---------------------------------------------------------------------
+\newpage
+\tableofcontents
+\newpage
+
+% =====================================================================
+% BODY
+% =====================================================================
+
+\section{Introduction}
+
+
+\section{Theoretical Background}
+
+\subsection{Key Definitions}
+
+\subsection{Main Theorems}
+
+\section{Problem Statement}
+
+\section{Solution}
+
+\subsection{Mathematical Derivation}
+
+% ---------------------------------------------------------------------
+\subsection{MATLAB Implementation}
+% ---------------------------------------------------------------------
+
+\mfile{index.m}                      {./src/index.m}
+\mfile{process\_single\_image.m}     {./src/process_single_image.m}
+\mfile{compress\_image\_svd.m}       {./src/compress_image_svd.m}
+\mfile{compress\_channel\_svd.m}     {./src/compress_channel_svd.m}
+\mfile{custom\_svd.m}                {./src/custom_svd.m}
+\mfile{calculate\_frobenius\_error.m}{./src/calculate_frobenius_error.m}
+\mfile{calculate\_data\_retention.m} {./src/calculate_data_retention.m}
+\mfile{test.m}                       {./src/test.m}
+
+% ---------------------------------------------------------------------
+\subsection{Results}
+% ---------------------------------------------------------------------
+% \imggroup{input image path}{output prefix}{extension}
+% Output prefix must match:  <prefix>_visualization.<ext>
+%                            <prefix>_tradeoff.<ext>
+
+\imggroup{./assets/input/01_landscape.jpg}
+         {./assets/output/01_landscape}
+         {jpg}
+
+\imggroup{./assets/input/02_dog.jpeg}
+         {./assets/output/02_dog}
+         {jpeg}
+
+\imggroup{./assets/input/03_color.png}
+         {./assets/output/03_color}
+         {png}
+
+\section{Conclusion}
+
+% =====================================================================
+% END
+% =====================================================================
+\newpage
+\begin{center}\itshape
+  -- End of report --
+\end{center}
+
+\end{document}
